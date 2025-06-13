@@ -4,23 +4,6 @@ import { asyncHandler, createLogger } from '@microservice/shared';
 
 const logger = createLogger('product-controller');
 
-// Define types for your query parameters and product data
-interface ProductQueryParams {
-  page?: string;
-  limit?: string;
-  sort?: string;
-  [key: string]: any; // for additional dynamic query params
-}
-
-interface ProductCreateData {
-  // Define the structure of your product data
-  name: string;
-  price: number;
-  category: string;
-  description?: string;
-  // Add other product fields as needed
-}
-
 export class ProductController {
   private productService: ProductService;
 
@@ -28,7 +11,7 @@ export class ProductController {
     this.productService = new ProductService();
   }
 
-  getProducts = asyncHandler(async (req: Request<{}, {}, {}, ProductQueryParams>, res: Response) => {
+  getProducts = asyncHandler(async (req: Request, res: Response) => {
     const query = req.query;
     
     logger.info('Fetching products', { query });
@@ -43,7 +26,7 @@ export class ProductController {
     });
   });
 
-  getProduct = asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
+  getProduct = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
     
     logger.info('Fetching product', { productId: id });
@@ -57,7 +40,7 @@ export class ProductController {
     });
   });
 
-  getProductsByCategory = asyncHandler(async (req: Request<{ category: string }, {}, {}, ProductQueryParams>, res: Response) => {
+  getProductsByCategory = asyncHandler(async (req: Request, res: Response) => {
     const { category } = req.params;
     const query = req.query;
     
@@ -73,7 +56,7 @@ export class ProductController {
     });
   });
 
-  createProduct = asyncHandler(async (req: Request<{}, {}, ProductCreateData>, res: Response) => {
+  createProduct = asyncHandler(async (req: Request, res: Response) => {
     const productData = req.body;
     
     logger.info('Creating product', { productData });
@@ -89,7 +72,7 @@ export class ProductController {
     });
   });
 
-  updateProduct = asyncHandler(async (req: Request<{ id: string }, {}, Partial<ProductCreateData>>, res: Response) => {
+  updateProduct = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
     const updateData = req.body;
     
@@ -106,7 +89,7 @@ export class ProductController {
     });
   });
 
-  deleteProduct = asyncHandler(async (req: Request<{ id: string }>, res: Response) => {
+  deleteProduct = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
     
     logger.info('Deleting product', { productId: id });

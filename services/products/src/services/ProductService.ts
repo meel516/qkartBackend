@@ -42,7 +42,7 @@ export class ProductService {
     
     if (cachedResult) {
       logger.info('Products retrieved from cache', { cacheKey });
-      return cachedResult;
+      return cachedResult as PaginatedResponse<any>;
     }
 
     // Get from database
@@ -141,7 +141,7 @@ export class ProductService {
 
   async createProduct(input: CreateProductInput) {
     const product = await prisma.product.create({
-      data: input
+      data: input as any
     });
 
     // Invalidate products cache

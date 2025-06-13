@@ -5,8 +5,8 @@ import { MessageEvent } from '../types';
 const logger = createLogger('rabbitmq');
 
 class RabbitMQService {
-  private connection: Connection | null = null;
-  private channel: Channel | null = null;
+  private connection = null;
+  private channel = null;
   private readonly url: string;
 
   constructor() {

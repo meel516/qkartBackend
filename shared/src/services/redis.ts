@@ -8,8 +8,27 @@ class RedisService {
   private isConnected: boolean = false;
 
   constructor() {
+    let redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
+    
+    // Ensure URL starts with redis:// or rediss://
+    if (!redisUrl.startsWith('redis://') && !redisUrl.startsWith('rediss://')) {
+      redisUrl = `redis://${redisUrl}`;
+    }
+
+    // For URLs with passwords containing special characters
+    try {
+      const url = new URL(redisUrl);
+      if (url.password) {
+        redisUrl = redisUrl.replace(
+          `:${url.password}@`, 
+          `:${encodeURIComponent(url.password)}@`
+        );
+      }
+    } catch (e) {
+      logger.warn('Error parsing Redis URL', { error: e });
+    }
     this.client = createClient({
-      url: process.env.REDIS_URL || 'redis://localhost:6379'
+      url: redisUrl
     });
 
     this.client.on('error', (err) => {
