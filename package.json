@@ -1,0 +1,37 @@
+{
+  "name": "microservice-backend",
+  "version": "1.0.0",
+  "description": "Full-stack backend with Express.js microservices",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev": "concurrently \"npm run dev --workspace=services/auth\" \"npm run dev --workspace=services/products\" \"npm run dev --workspace=services/cart\" \"npm run dev --workspace=services/notifications\"",
+    "start": "npm run start --workspaces",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "prisma:generate": "npm run prisma:generate --workspaces",
+    "prisma:migrate": "npm run prisma:migrate --workspaces",
+    "test": "npm run test --workspaces"
+  },
+  "workspaces": [
+    "shared",
+    "services/*"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "concurrently": "^8.2.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.3.0"
+  },
+  "keywords": [
+    "microservices",
+    "express",
+    "typescript",
+    "docker",
+    "prisma",
+    "redis",
+    "rabbitmq"
+  ]
+}
