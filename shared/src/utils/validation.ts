@@ -3,7 +3,7 @@ import { z } from 'zod';
 // Common validation schemas
 export const emailSchema = z.string().email('Invalid email format');
 export const passwordSchema = z.string().min(8, 'Password must be at least 8 characters');
-export const uuidSchema = z.string().uuid('Invalid UUID format');
+export const cuidSchema = z.string().cuid('Invalid UUID format');
 
 // Pagination schema
 export const paginationSchema = z.object({
@@ -39,7 +39,7 @@ export const updateProductSchema = createProductSchema.partial();
 
 // Cart schemas
 export const addToCartSchema = z.object({
-  productId: uuidSchema,
+  productId: cuidSchema,
   quantity: z.number().int().positive('Quantity must be positive')
 });
 
